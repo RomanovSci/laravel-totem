@@ -191,15 +191,17 @@ class EloquentTaskRepository implements TaskInterface
     {
         $task = $this->find($id);
         $start = microtime(true);
+        $failedAt = null;
         try {
             Artisan::call($task->command, $task->compileParameters());
 
             file_put_contents(storage_path($task->getMutexName()), Artisan::output());
         } catch (\Exception $e) {
             file_put_contents(storage_path($task->getMutexName()), $e->getMessage());
+            $failedAt = now();
         }
 
-        Executed::dispatch($task, $start);
+        Executed::dispatch($task, $start, $failedAt);
 
         return $task;
     }

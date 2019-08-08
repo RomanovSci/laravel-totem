@@ -2,6 +2,7 @@
 
 namespace Studio\Totem\Events;
 
+use Carbon\Carbon;
 use Studio\Totem\Task;
 use Studio\Totem\Notifications\TaskCompleted;
 
@@ -12,8 +13,9 @@ class Executed extends BroadcastingEvent
      *
      * @param Task $task
      * @param string $started
+     * @param Carbon $failedAt
      */
-    public function __construct(Task $task, $started)
+    public function __construct(Task $task, $started, Carbon $failedAt = null)
     {
         parent::__construct($task);
 
@@ -25,6 +27,7 @@ class Executed extends BroadcastingEvent
             $task->results()->create([
                 'duration'  => $time_elapsed_secs * 1000,
                 'result'    => $output,
+                'failed_at' => $failedAt,
             ]);
 
             unlink(storage_path($task->getMutexName()));

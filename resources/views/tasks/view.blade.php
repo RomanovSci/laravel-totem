@@ -107,7 +107,7 @@
                 </thead>
                 <tbody>
                 @forelse($results = $task->results()->orderByDesc('created_at')->paginate(10) as $result)
-                    <tr>
+                    <tr style="background-color: {{$result->failed_at ? '#f3d9d9' : ''}}">
                         <td>{{$result->ran_at->toDateTimeString()}}</td>
                         <td>{{ number_format($result->duration / 1000 , 2)}} seconds</td>
                         <td>

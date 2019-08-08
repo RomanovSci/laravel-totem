@@ -12,6 +12,7 @@ class Result extends TotemModel
     protected $fillable = [
         'duration',
         'result',
+        'failed_at',
     ];
 
     protected $dates = [
