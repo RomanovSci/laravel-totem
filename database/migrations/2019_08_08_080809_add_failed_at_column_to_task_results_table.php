@@ -13,7 +13,7 @@ class AddFailedAtColumnToTaskResultsTable extends Migration
      */
     public function up()
     {
-        Schema::table('task_results', function (Blueprint $table) {
+        Schema::table(TOTEM_TABLE_PREFIX . 'task_results', function (Blueprint $table) {
             $table->dateTime('failed_at')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddFailedAtColumnToTaskResultsTable extends Migration
      */
     public function down()
     {
-        Schema::table('task_results', function (Blueprint $table) {
+        Schema::table(TOTEM_TABLE_PREFIX . 'task_results', function (Blueprint $table) {
             $table->dropColumn('failed_at');
         });
     }
